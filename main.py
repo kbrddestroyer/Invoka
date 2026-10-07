@@ -1,6 +1,7 @@
 import time
-from speech import SpeechInputModule
-from config import MODEL
+from source.speech import SpeechInputModule
+from source.config import MODEL
+from source.keyboard_controller import Cast
 
 
 def main():
@@ -8,8 +9,13 @@ def main():
 
     while True:
         result = si.update()
-        if result:
-            print(result['text'])
+        if not result:
+            continue
+
+        voice_prompt = result['text']
+        print(voice_prompt)
+        for prompt in voice_prompt.split(' '):
+            Cast.invoke_spell(prompt)
 
 
 if __name__ == "__main__":
